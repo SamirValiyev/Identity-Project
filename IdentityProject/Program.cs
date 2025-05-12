@@ -1,3 +1,7 @@
+using IdentityProject.Context;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 namespace IdentityProject
 {
     public class Program
@@ -8,7 +12,10 @@ namespace IdentityProject
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<AppDbContext>(opt =>
+            {
+                opt.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
