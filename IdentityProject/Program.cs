@@ -1,5 +1,7 @@
 using IdentityProject.Context;
+using IdentityProject.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace IdentityProject
@@ -12,6 +14,7 @@ namespace IdentityProject
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<AppDbContext>();
             builder.Services.AddDbContext<AppDbContext>(opt =>
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"));
@@ -24,6 +27,15 @@ namespace IdentityProject
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+
+            #region UseStaticFilesConfig
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    RequestPath="/node_modules",
+            //    FileProvider=new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"node_modules"))
+            //});
+            #endregion
+
 
             app.UseRouting();
 
