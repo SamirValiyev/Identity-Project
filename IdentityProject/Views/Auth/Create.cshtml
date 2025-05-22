@@ -28,8 +28,12 @@
             </select>
             <span asp-validation-for="@Model.Gender" class="text-danger"></span>
         </div>
+
+        <div class="mt-3 text-danger" asp-validation-summary="ModelOnly">
+
+        </div>
         
-            <button type="submit" class="form-control btn btn-primary">Sign Up</button>
+        <button type="submit" class="form-control btn btn-primary">Sign Up</button>
 
        
         
