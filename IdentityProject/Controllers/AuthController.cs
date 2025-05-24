@@ -53,7 +53,7 @@ namespace IdentityProject.Controllers
                     }
                 }
             }
-            return View();
+            return View(model);
         }
     }
 }

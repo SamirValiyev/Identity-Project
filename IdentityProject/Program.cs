@@ -14,7 +14,14 @@ namespace IdentityProject
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequiredLength = 2;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireDigit = false;
+
+            }).AddEntityFrameworkStores<AppDbContext>();
             builder.Services.AddDbContext<AppDbContext>(opt =>
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"));
