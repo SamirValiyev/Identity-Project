@@ -21,6 +21,7 @@ namespace IdentityProject
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireLowercase = false;
+                opt.SignIn.RequireConfirmedEmail=true;
 
             }).AddEntityFrameworkStores<AppDbContext>();
             builder.Services.AddDbContext<AppDbContext>(opt =>

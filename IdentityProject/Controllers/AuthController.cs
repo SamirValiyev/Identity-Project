@@ -3,6 +3,7 @@ using IdentityProject.Models;
 using IdentityProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Eventing.Reader;
 using System.Threading.Tasks;
 
 namespace IdentityProject.Controllers
@@ -10,10 +11,12 @@ namespace IdentityProject.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AuthController(UserManager<AppUser> userManager)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]   
@@ -51,6 +54,35 @@ namespace IdentityProject.Controllers
                     {
                         ModelState.AddModelError(String.Empty, error.Description);
                     }
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn(SignInVM model)
+        {
+            if(!ModelState.IsValid) return View(model);
+            else
+            {
+                var signInResult=await _signInManager.PasswordSignInAsync(model.UserName, model.Password,false,true);
+                if (signInResult.Succeeded)
+                {
+                    // signin ugurlu
+                }
+                else if (signInResult.IsLockedOut)
+                {
+                    //signin (hesab kilitlendi)
+                }
+                else if (signInResult.IsNotAllowed)
+                {
+                    // email ve ya nomre dogrulamasi(tesdiqlenmesi)
                 }
             }
             return View(model);
