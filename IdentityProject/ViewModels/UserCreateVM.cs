@@ -22,7 +22,7 @@ namespace IdentityProject.ViewModels
 
         [Required(ErrorMessage = "Gender is Required")]
         public Gender Gender { get; set; }
-        public ICollection<SelectListItem> Genders { get; set; }
+        public ICollection<SelectListItem>? Genders { get; set; }
 
     }
 }

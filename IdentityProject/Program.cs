@@ -20,6 +20,7 @@ namespace IdentityProject
                 opt.Password.RequiredLength = 2;
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
 
             }).AddEntityFrameworkStores<AppDbContext>();
             builder.Services.AddDbContext<AppDbContext>(opt =>
