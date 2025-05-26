@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace IdentityProject.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class AuthController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
