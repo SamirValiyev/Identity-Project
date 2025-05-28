@@ -105,7 +105,7 @@ namespace IdentityProject.Controllers
             return View(model);
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetUserDetail()
         {
             var user = User.Identity.Name;
@@ -113,5 +113,18 @@ namespace IdentityProject.Controllers
 
             return View();
         }
+
+        [Authorize(Roles ="Admin")]
+        public IActionResult AdminPanel()
+        {
+            return View();
+        }
+
+        [Authorize(Roles ="Member")]
+        public IActionResult UserPanel()
+        {
+            return View();
+        }
+
     }
 }
