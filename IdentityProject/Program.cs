@@ -24,6 +24,17 @@ namespace IdentityProject
                 opt.SignIn.RequireConfirmedEmail=true;
 
             }).AddEntityFrameworkStores<AppDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.SameSite=SameSiteMode.Strict;
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                opt.Cookie.HttpOnly = true;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(26);
+                opt.Cookie.Name = "ProjectCookie";
+                opt.LoginPath = new PathString("/Auth/SignIn");
+            });
+
             builder.Services.AddDbContext<AppDbContext>(opt =>
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"));

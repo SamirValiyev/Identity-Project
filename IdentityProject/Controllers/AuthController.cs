@@ -56,13 +56,16 @@ namespace IdentityProject.Controllers
                 var identityResult= await _userManager.CreateAsync(appUser,model.Password);
                 if (identityResult.Succeeded)
                 {
-                    
-                    //await _roleManager.CreateAsync(new AppRole
-                    //{
-                    //    Name = "Admin",
-                    //    CreatedDate = DateTime.Now
-                    //});
-                    await _userManager.AddToRoleAsync(appUser, "Admin");
+                    var memberRole = await _roleManager.FindByNameAsync("Member");
+                    if(memberRole is null)
+                    {
+                        await _roleManager.CreateAsync(new AppRole
+                        {
+                            Name = "Member",
+                            CreatedDate = DateTime.Now
+                        });
+                    }
+                    await _userManager.AddToRoleAsync(appUser, "Member");
                     return RedirectToAction("Index", "Home");
                 }
                 else
