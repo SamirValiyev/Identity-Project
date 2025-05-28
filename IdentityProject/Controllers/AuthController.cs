@@ -80,9 +80,9 @@ namespace IdentityProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignIn()
+        public IActionResult SignIn(string returnUrl)
         {
-            return View();
+            return View(new SignInVM() { ReturnUrl=returnUrl});
         }
 
         [HttpPost]
@@ -91,6 +91,10 @@ namespace IdentityProject.Controllers
             if(!ModelState.IsValid) return View(model);
             else
             {
+                if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
                 var signInResult=await _signInManager.PasswordSignInAsync(model.UserName, model.Password,false,true);
                 if (signInResult.Succeeded)
                 {
@@ -139,5 +143,10 @@ namespace IdentityProject.Controllers
             return View();
         }
 
+        [Authorize(Roles ="Member")]
+        public IActionResult TestPanel()
+        {
+            return View();
+        }
     }
 }

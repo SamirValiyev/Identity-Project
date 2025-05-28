@@ -6,6 +6,7 @@
 
 <form asp-action="SignIn" asp-controller="Auth" method="post" class="p-3 w-50 mx-auto shadow">
     <div class="form-control">
+        <input type="hidden" asp-for="@Model.ReturnUrl" />
         <div class="mb-3">
             <label>UserName:</label>
             <input asp-for="@Model.UserName" class="form-control" />
