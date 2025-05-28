@@ -1,4 +1,5 @@
-﻿using IdentityProject.Enums;
+﻿using AspNetCoreGeneratedDocument;
+using IdentityProject.Enums;
 using IdentityProject.Models;
 using IdentityProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -90,17 +91,26 @@ namespace IdentityProject.Controllers
                 var signInResult=await _signInManager.PasswordSignInAsync(model.UserName, model.Password,false,true);
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToAction("Index","Home");
                     // signin ugurlu
+                    var user = await _userManager.FindByNameAsync(model.UserName);
+                    var userRole=await _userManager.GetRolesAsync(user);
+                    if (userRole.Contains("Admin"))
+                        return RedirectToAction("AdminPanel");
+                    else
+                        return RedirectToAction("UserPanel");
                 }
-                else if (signInResult.IsLockedOut)
-                {
-                    //signin (hesab kilitlendi)
-                }
-                else if (signInResult.IsNotAllowed)
-                {
-                    // email ve ya nomre dogrulamasi(tesdiqlenmemesi)
-                }
+              
+                #region SignInResultDetail
+                //else if (signInResult.IsLockedOut)
+                //{
+                //    //signin (hesab kilitlendi)
+                //}
+                //else if (signInResult.IsNotAllowed)
+                //{
+                //    // email ve ya nomre dogrulamasi(tesdiqlenmemesi)
+                //}
+                #endregion
+
             }
             return View(model);
         }
